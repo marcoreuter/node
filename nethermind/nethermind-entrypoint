@@ -60,4 +60,8 @@ exec ./nethermind \
     --Metrics.ExposePort="$METRICS_PORT" \
     --Network.P2PPort="$P2P_PORT" \
     --Network.DiscoveryPort="$DISCOVERY_PORT" \
+    --Pruning.Mode Hybrid \
+    --Sync.AncientBodiesBarrier 0 \
+    --Sync.AncientReceiptsBarrier 0 \
+    --Receipt.TxLookupLimit 0
     $ADDITIONAL_ARGS

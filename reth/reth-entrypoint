@@ -25,6 +25,30 @@ else
     echo "Running in vanilla node mode (no Flashblocks URL provided)"
 fi
 
+
+ADDITIONAL_ARGS="$ADDITIONAL_ARGS \
+  --stages.headers.downloader-max-concurrent-requests 300 \
+  --stages.headers.downloader-request-limit 2000 \
+  --stages.headers.downloader-max-buffered-responses 200 \
+  --stages.headers.commit-threshold 50000 \
+  --stages.bodies.downloader-max-concurrent-requests 300 \
+  --stages.bodies.downloader-request-limit 500 \
+  --stages.bodies.downloader-stream-batch-size 5000 \
+  --stages.bodies.downloader-max-buffered-blocks-size-bytes 8589934592 \
+  --stages.sender-recovery.commit-threshold 10000000 \
+  --stages.execution.max-blocks 2000000 \
+  --stages.execution.max-changes 20000000 \
+  --stages.execution.max-cumulative-gas 5000000000 \
+  --stages.execution.max-duration 30m \
+  --stages.account-hashing.commit-threshold 500000 \
+  --stages.storage-hashing.commit-threshold 500000 \
+  --stages.merkle.incremental-threshold 10000 \
+  --stages.transaction-lookup.chunk-size 10000000 \
+  --peers.connection-info.max-outbound 200 \
+  --peers.connection-info.max-concurrent-outbound-dials 50 \
+  --sessions.session-command-buffer 64 \
+  --sessions.session-event-buffer 512"
+
 # Add pruning for base
 if [[ "${RETH_PRUNING_ARGS+x}" = x ]]; then
     echo "Adding pruning arguments: $RETH_PRUNING_ARGS"
@@ -59,4 +83,5 @@ exec "$BINARY" node \
   --rollup.disable-tx-pool-gossip \
   --discovery.port="$DISCOVERY_PORT" \
   --port="$P2P_PORT" \
+
   $ADDITIONAL_ARGS
